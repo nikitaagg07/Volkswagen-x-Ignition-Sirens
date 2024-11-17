@@ -2,6 +2,30 @@
 
 ![Landing page](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img1.png)
 
+## Installation & Usage
+
+To use this page, follow the steps:
+```bash
+1. npm install react react-dom react-leaflet socket.io-client
+2. npm install express socket.io
+3. node server.js
+4. Once the server is running, access the application in your browser:
+	Default URL: http://localhost:5000 
+5. For any additional scripts or commands, refer to the package.json scripts section.
+```
+
+## Map API Integration
+
+This project uses the Maps Javascript API, Directions API, Geolocation API to provide interactive map features. The API allows users to view and interact with maps, get directions, and track locations in real time. It has been integrated into the application to display maps with customizable markers and geolocation capabilities.
+
+## Setup Instructions
+1. Obtain an API key from Google Cloud Console.
+2. Add the API key to your environment variables or configuration file as follows:
+```bash
+   MAP_API_KEY=your-api-key-here
+```
+
+
 ## Idea 1 : SignatureStyling
 
 ### Problem:
@@ -56,25 +80,3 @@ These solutions ensure a safer, more enjoyable, and connected driving experience
 ![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img7.png)
 ![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img8.png)
 
-## Installation & Usage
-
-To use this page, follow the steps:
-```bash
-1. npm install react react-dom react-leaflet socket.io-client
-2. npm install express socket.io
-3. node server.js
-4. Once the server is running, access the application in your browser:
-	Default URL: http://localhost:5000 
-5. For any additional scripts or commands, refer to the package.json scripts section.
-```
-
-## Map API Integration
-
-This project uses the Maps Javascript API, Directions API, Geolocation API to provide interactive map features. The API allows users to view and interact with maps, get directions, and track locations in real time. It has been integrated into the application to display maps with customizable markers and geolocation capabilities.
-
-## Setup Instructions
-1. Obtain an API key from Google Cloud Console.
-2. Add the API key to your environment variables or configuration file as follows:
-```bash
-   MAP_API_KEY=your-api-key-here
-```
