@@ -18,5 +18,36 @@ To address these challenges, we aim to leverage innovative vehicle modification 
 
 These solutions collectively transform vehicles into adaptable, secure, and highly personalized spaces tailored to diverse user needs.
 
+## Idea 2 : CareDrive
+
+### Problem:
+With rising awareness of health and safety, drivers are looking for systems that monitor their well-being on the road. Traditional vehicles lack the ability to track vital signs, detect health anomalies, or provide immediate alerts in emergencies, leaving drivers vulnerable to sudden health issues.
+
+### Solution:
+To address these challenges, we leverage advanced sensor technologies and real-time data processing to enhance driver safety and well-being in the following ways:  
+
+1. **Health Monitoring:** Sensors embedded in seatbelts and steering wheels, including the Glucometer Chip (blood glucose monitoring), Texas Instruments AFE4404 (heart rate, oxygen levels, and blood pressure), and Shimmer3 EDA Sensor (stress detection), track vital signs like heart rate, blood pressure, and stress levels in real time.
+   
+2. **Anomaly Detection Alerts:** Drivers receive instant notifications if health metrics deviate from safe ranges, enabling proactive responses to potential health risks.  
+
+3. **SOS Emergency System:** A dedicated emergency button sends real-time health updates and location information to emergency contacts, ensuring timely assistance during critical situations.  
+
+These state-of-the-art sensors deliver precise health monitoring and enable rapid interventions, prioritizing safety and promoting a secure driving experience.
+
+## VoyageSync
+
+### Problem:
+As group travel becomes more popular, drivers struggle with coordinating journeys and staying connected on the road. Traditional vehicles rely on external devices, making it difficult to sync maps, share updates, or plan breaks in real time, resulting in disjointed and inefficient travel experiences.
+
+### Solution:
+To address these challenges, we aim to leverage vehicle-to-vehicle communication and integrated technologies to create a more connected and collaborative travel experience in the following ways:
+
+1. **Real-Time Syncing:** We propose enabling vehicles to securely connect and sync maps, music playlists, and messages directly through their systems, eliminating the need for external devices.
+
+2. **Break Coordination:** Drivers can coordinate rest stops and breaks seamlessly with connected travelers using intuitive in-car prompts.
+
+3. **Shared Travel Experience:** Vehicles can share real-time journey updates, enhancing group travel and fostering collaboration.
+
+These solutions ensure a safer, more enjoyable, and connected driving experience, eliminating distractions and improving group coordination.
 
 
