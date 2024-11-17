@@ -17,7 +17,9 @@ To address these challenges, we aim to leverage innovative vehicle modification 
 3.**Pet Safety Features:** By incorporating net barriers and pet seatbelts, we aim to ensure secure and distraction-free travel for pet owners.
 
 These solutions collectively transform vehicles into adaptable, secure, and highly personalized spaces tailored to diverse user needs.
-
+![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img2.png)
+![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img3.png)
+![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img4.png)
 ## Idea 2 : CareDrive
 
 ### Problem:
@@ -33,7 +35,8 @@ To address these challenges, we leverage advanced sensor technologies and real-t
 3. **SOS Emergency System:** A dedicated emergency button sends real-time health updates and location information to emergency contacts, ensuring timely assistance during critical situations.  
 
 These state-of-the-art sensors deliver precise health monitoring and enable rapid interventions, prioritizing safety and promoting a secure driving experience.
-
+![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img5.png)
+![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img7.png)
 ## VoyageSync
 
 ### Problem:
@@ -50,4 +53,15 @@ To address these challenges, we aim to leverage vehicle-to-vehicle communication
 
 These solutions ensure a safer, more enjoyable, and connected driving experience, eliminating distractions and improving group coordination.
 
+![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img7.png)
+![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img8.png)
 
+## Installation & Usage
+
+To use this page, follow the steps:
+1. npm install react react-dom react-leaflet socket.io-client
+2. npm install express socket.io
+3. node server.js
+4. Once the server is running, access the application in your browser:
+	Default URL: http://localhost:5000 
+5. For any additional scripts or commands, refer to the package.json scripts section.
