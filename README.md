@@ -6,13 +6,20 @@
 
 To use this page, follow the steps:
 ```bash
-1. npm install react react-dom react-leaflet socket.io-client
-2. npm install express socket.io
-3. node server.js
-4. Once the server is running, access the application in your browser:
-	Default URL: http://localhost:5000 
-5. For any additional scripts or commands, refer to the package.json scripts section.
+npm install react react-dom react-leaflet socket.io-client
 ```
+
+```bash
+npm install express socket.io
+```
+
+```bash
+node server.js
+```
+
+- Once the server is running, access the application in your browser:
+	Default URL: http://localhost:5000 
+- For any additional scripts or commands, refer to the package.json scripts section.
 
 ## Map API Integration
 
