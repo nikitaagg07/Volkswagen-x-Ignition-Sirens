@@ -4,7 +4,7 @@
 
 ## Installation & Usage
 
-To use this page, follow the steps:
+To run this project, follow the steps:
 ```bash
 npm install react react-dom react-leaflet socket.io-client
 ```
