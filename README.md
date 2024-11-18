@@ -19,7 +19,6 @@ node server.js
 
 - Once the server is running, access the application in your browser:
 	Default URL: http://localhost:5000 
-- For any additional scripts or commands, refer to the package.json scripts section.
 
 ## Map API Integration
 
