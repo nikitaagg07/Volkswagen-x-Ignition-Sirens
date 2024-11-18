@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volkswagen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            background-image: url('src/images/backg.jpeg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-family: cursive;
+            font-size: 3em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .heading p {
+            font-family: cursive;
+            font-size: 1.2em;
+            margin-top: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .grid-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            width: 350px;
+            height: 300px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            overflow: hidden;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 15px;
+        }
+
+        .card-content h2 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .card-content p {
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>Volkswagen x Ignition Sirens 🤞🤞</h1>
+        <p>Drive Beyond Limits: Style, Sync, and Safeguard Your Journey.</p>
+    </div>
+
+    <div class="grid-container">
+        <a href="signaturestyling.html" class="card">
+            <img src="src/images/Sigstyle.jpeg" alt="Main Car">
+            <div class="card-content">
+                <h2>SIGNATURE STYLING</h2>
+                <p>Start your dream configuration right here 🥰</p>
+            </div>
+        </a>
+
+        <a href="voyagesync.html" class="card">
+            <img src="src/images/voyagesync.jpeg" alt="Car Features">
+            <div class="card-content">
+                <h2>VOYAGE SYNC</h2>
+                <p>Connect with other Voyagers and share your journey 😀</p>
+            </div>
+        </a>
+
+        <a href="caredrive.html" class="card">
+            <img src="src/images/caredrive.jpeg" alt="Car Performance">
+            <div class="card-content">
+                <h2>CARE DRIVE</h2>
+                <p>Your health, our priority on every journey 🫶</p>
+            </div>
+        </a>
+    </div>
+</body>
+
+</html>

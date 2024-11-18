@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage Sync</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('src/images/backg.jpeg');
+            font-family: Arial, sans-serif;
+            background-color: #1d1d1d;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            height: 100vh;
+        }
+        
+        
+        .sidebar {
+            width: 60px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            justify-content: space-evenly; 
+            height: 100%; 
+        }
+
+        .sidebar li {
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .sidebar img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sidebar img:hover {
+            transform: scale(1.2);
+            
+            opacity: 0.8;
+            
+        }
+
+        
+        #voyageSyncBtn {
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            
+        }
+
+        
+        #voyageSyncBtn.active {
+            transform: scale(1.1);
+            
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            
+        }
+
+        /* Main content area divided into two parts */
+        .main-content {
+            margin-left: 60px;
+            display: flex;
+            width: calc(100% - 60px);
+        }
+
+        .section {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .top-bar {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #14a9d6;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        #car1Section {
+            border: 4px solid gray;
+            background-color: rgb(75, 72, 72);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            margin-top: 50px;
+            height: 400px;
+        }
+
+        #car2Section {
+            border: 4px solid gray;
+            background-color:rgb(75, 72, 72);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            margin-top: 50px;
+
+            height: 400px;
+        }
+
+        
+        .room-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #5bcc2e;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        /* Room creation block */
+        .room-block {
+            margin-top: 20px;
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .room-code {
+            font-size: 1.5em;
+            margin: 10px 0;
+            color: #ffd700;
+        }
+
+        /* Join Room input */
+        .join-room {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .join-room label,
+        .join-room input {
+            margin-top: 10px;
+        }
+
+        .join-room input {
+            padding: 5px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: #fdfafa;
+            color: #fff;
+            width: 80%;
+            text-align: center;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        #car1ConnectBtn {
+            background-color: #14a9d6;
+            
+            color: white;
+            
+            font-size: 16px;
+            
+            padding: 10px 20px;
+            
+            border: none;
+            
+            border-radius: 5px;
+            
+            cursor: pointer;
+            
+            transition: background-color 0.3s ease;
+            
+        }
+        
+        #car1RoomInput,#car2RoomInput{
+            color: black;
+        }
+        #car1ConnectBtn:hover {
+            background-color: #1186a4;
+            
+        }
+
+        #car1ConnectBtn:active {
+            background-color: #0e5f75;
+           
+        }
+
+        #car2ConnectBtn {
+            background-color: #14a9d6;
+            
+            color: white;
+           
+            font-size: 16px;
+            
+            padding: 10px 20px;
+         
+            border: none;
+            
+            border-radius: 5px;
+            
+            cursor: pointer;
+            
+            transition: background-color 0.3s ease;
+           
+        }
+
+        #car2ConnectBtn:hover {
+            background-color: #1186a4;
+            
+        }
+
+        #car2ConnectBtn:active {
+            background-color: #0e5f75;
+           
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="sidebar">
+        <div class="nav-buttons">
+            <button onclick="goBack()">&#x2190; Back</button>
+        </div>
+        <ul>
+            <li><img src="src/images/icon1.jpeg" alt="Profile" title="Profile"></li>
+            <li><img src="src/images/icon2.jpeg" alt="Settings" title="Settings"></li>
+            <li><img src="src/images/icon3.jpeg" alt="Map" title="Map"></li>
+            <li><img src="src/images/icon4.jpeg" alt="Music" title="Music"></li>
+            <li><img src="src\images\icon5.jpeg" alt="Call" title="Call"></li>
+            <a href="voyagesync.html">
+                <img src="src/images/icon6.jpeg" alt="VoyageSync" title="VoyageSync">
+            </a>
+            <a href="caredrive.html">
+                <img src="src/images/icon7.jpeg" alt="CareDrive" title="CareDrive">
+            </a>
+        </ul>
+    </div>
+
+    
+    <div class="main-content">
+        
+        <div class="section" id="car1Section">
+            <div class="top-bar">Virat's Dashboard</div>
+            <div class="room-buttons">
+                <button class="btn" id="car1CreateBtn">Create Room</button>
+                <button class="btn" id="car1JoinBtn">Join Room</button>
+            </div>
+            <div id="car1RoomBlock" class="room-block" style="display: none;">
+                <div id="car1RoomMessage"></div>
+                <div id="car1RoomCode" class="room-code"></div>
+                <button class="btn" id="car1ConnectBtn" style="display: none;">Connect</button>
+                <div id="car1JoinRoom" class="join-room" style="display: none;">
+                    <label for="car1RoomInput">Enter the code:</label>
+                    <input type="text" id="car1RoomInput">
+                    <button class="btn" id="car1JoinConfirmBtn">Join</button>
+                    <div id="car1Error" class="error"></div>
+                </div>
+            </div>
+        </div>
+
+      
+        <div class="section" id="car2Section">
+            <div class="top-bar">Sachin's Dashboard</div>
+            <div class="room-buttons">
+                <button class="btn" id="car2CreateBtn">Create Room</button>
+                <button class="btn" id="car2JoinBtn">Join Room</button>
+            </div>
+            <div id="car2RoomBlock" class="room-block" style="display: none;">
+                <div id="car2RoomMessage"></div>
+                <div id="car2RoomCode" class="room-code"></div>
+                <button class="btn" id="car2ConnectBtn" style="display: none;">Connect</button>
+                <div id="car2JoinRoom" class="join-room" style="display: none;">
+                    <label for="car2RoomInput">Enter the code:</label>
+                    <input type="text" id="car2RoomInput">
+                    <button class="btn" id="car2JoinConfirmBtn">Join</button>
+                    <div id="car2Error" class="error"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+        function goBack() {
+            window.location.href = "index.html";
+        }
+
+        let roomCode = '';
+
+     
+        function generateRoomCode() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+        // Car 1 - Create Room
+        document.getElementById('car1CreateBtn').addEventListener('click', () => {
+            roomCode = generateRoomCode();
+            document.getElementById('car1RoomBlock').style.display = 'block';
+            document.getElementById('car1RoomMessage').innerText = 'Share this code with other voyagers and ask them to join the room';
+            document.getElementById('car1RoomCode').innerText = roomCode;
+            document.getElementById('car1ConnectBtn').style.display = 'block';
+            document.getElementById('car1JoinRoom').style.display = 'none';
+        });
+
+        // Car 2 - Create Room
+        document.getElementById('car2CreateBtn').addEventListener('click', () => {
+            roomCode = generateRoomCode();
+            document.getElementById('car2RoomBlock').style.display = 'block';
+            document.getElementById('car2RoomMessage').innerText = 'Share this code with other voyagers and ask them to join the room';
+            document.getElementById('car2RoomCode').innerText = roomCode;
+            document.getElementById('car2ConnectBtn').style.display = 'block';
+            document.getElementById('car2JoinRoom').style.display = 'none';
+        });
+
+        // Car 1 - Join Room
+        document.getElementById('car1JoinBtn').addEventListener('click', () => {
+            document.getElementById('car1RoomBlock').style.display = 'block';
+            document.getElementById('car1RoomMessage').innerText = '';
+            document.getElementById('car1RoomCode').innerText = '';
+            document.getElementById('car1ConnectBtn').style.display = 'none';
+            document.getElementById('car1JoinRoom').style.display = 'block';
+            document.getElementById('car1Error').innerText = '';
+        });
+
+        // Car 2 - Join Room
+        document.getElementById('car2JoinBtn').addEventListener('click', () => {
+            document.getElementById('car2RoomBlock').style.display = 'block';
+            document.getElementById('car2RoomMessage').innerText = '';
+            document.getElementById('car2RoomCode').innerText = '';
+            document.getElementById('car2ConnectBtn').style.display = 'none';
+            document.getElementById('car2JoinRoom').style.display = 'block';
+            document.getElementById('car2Error').innerText = '';
+        });
+
+        // Car 1 - Join Confirmation
+        document.getElementById('car1JoinConfirmBtn').addEventListener('click', () => {
+            const inputCode = document.getElementById('car1RoomInput').value.trim();
+            if (inputCode === roomCode) {
+                alert('Connected successfully!');
+                document.getElementById('car1Error').innerText = '';
+            } else {
+                document.getElementById('car1Error').innerText = 'Error: Code does not match';
+            }
+        });
+
+        // Car 2 - Join Confirmation
+        document.getElementById('car2JoinConfirmBtn').addEventListener('click', () => {
+            const inputCode = document.getElementById('car2RoomInput').value.trim();
+            if (inputCode === roomCode) {
+                alert('Connected successfully!');
+                document.getElementById('car2Error').innerText = '';
+            } else {
+                document.getElementById('car2Error').innerText = 'Error: Code does not match';
+            }
+        });
+
+        // Car 1 - Connect Button Redirection
+        document.getElementById('car1ConnectBtn').addEventListener('click', () => {
+            window.location.href = 'dashboard.html';
+        });
+
+        // Car 2 - Connect Button Redirection
+        document.getElementById('car2ConnectBtn').addEventListener('click', () => {
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Health Monitoring System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        
+        }
+
+        .metric-card {
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .alert-banner {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .graph-container {
+            height: 200px;
+            position: relative;
+        }
+
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 80px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 5px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly; 
+            height: 100%; 
+        }
+
+        .sidebar li {
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .sidebar img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sidebar img:hover {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+
+        .nav-buttons button {
+            background-color: white;
+            color: black;
+            padding: 2px 0px;
+            font-size: 15px;
+
+            cursor: pointer;
+
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-buttons button:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .top-bar {
+            width: 90%;
+            padding: 10px 20px;
+            background-color: #14a9d6;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            margin-left: 50px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        
+        .content-border {
+            border: 2px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            margin-left: 60px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-right: 0px;
+        }
+
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="sidebar">
+        <div class="nav-buttons">
+            <button onclick="goHome()">&#x2190; Home</button>
+        </div>
+        <ul>
+            <li><img src="src/images/icon1.jpeg" alt="Profile" title="Profile"></li>
+            <li><img src="src/images/icon2.jpeg" alt="Settings" title="Settings"></li>
+            <li><img src="src/images/icon3.jpeg" alt="Map" title="Map"></li>
+            <li><img src="src/images/icon4.jpeg" alt="Music" title="Music"></li>
+            <li><img src="src/images/icon5.jpeg" alt="Call" title="Call"></li>
+            <a href="voyagesync.html">
+                <img src="src/images/icon6.jpeg" alt="VoyageSync" title="VoyageSync">
+            </a>
+            <a href="caredrive.html">
+                <img src="src/images/icon7.jpeg" alt="CareDrive" title="CareDrive">
+            </a>
+        </ul>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 content-border">
+        <div class="top-bar">Hello, Virat</div>
+
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Health Dashboard</h1>
+            <div class="flex gap-4">
+                <button id="darkModeToggle" class="p-2 rounded-full bg-gray-200">
+                    <i class="bi bi-moon-fill"></i>
+                </button>
+                <button id="emergencyButton"
+                    class="bg-red-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-600">
+                    <i class="bi bi-telephone-fill mr-2"></i>Emergency
+                </button>
+            </div>
+        </header>
+
+        
+        <div id="alertBanner" class="hidden alert-banner bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-8">
+            <div class="flex items-center">
+                <i class="bi bi-exclamation-triangle-fill mr-2"></i>
+                <span id="alertMessage">Alert: Abnormal vital signs detected!</span>
+            </div>
+        </div>
+
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Heart Rate -->
+            <div class="metric-card bg-white p-6 rounded-xl shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Heart Rate</h3>
+                    <div id="heartRateStatus" class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-3xl font-bold mb-2"><span id="heartRate">72</span> BPM</div>
+                <div class="graph-container" id="heartRateGraph"></div>
+            </div>
+
+            <!-- Blood Pressure -->
+            <div class="metric-card bg-white p-6 rounded-xl shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Blood Pressure</h3>
+                    <div id="bpStatus" class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-3xl font-bold mb-2"><span id="bloodPressure">120/80</span></div>
+                <div class="graph-container" id="bpGraph"></div>
+            </div>
+
+            <!-- Blood Sugar -->
+            <div class="metric-card bg-white p-6 rounded-xl shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Blood Sugar</h3>
+                    <div id="sugarStatus" class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-3xl font-bold mb-2"><span id="bloodSugar">95</span> mg/dL</div>
+                <div class="graph-container" id="sugarGraph"></div>
+            </div>
+
+            <!-- Mood -->
+            <div class="metric-card bg-white p-6 rounded-xl shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Mood</h3>
+                    <div id="moodStatus" class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-3xl font-bold mb-2" id="moodIndicator">😊 Stable</div>
+                <div class="graph-container" id="moodGraph"></div>
+            </div>
+        </div>
+
+        <!-- Emergency Contacts Section -->
+        <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+            <h2 class="text-xl font-semibold mb-4">Emergency Contacts</h2>
+            <div id="contactsList" class="space-y-4">
+                
+            </div>
+            <button id="addContactBtn" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                <i class="bi bi-plus-lg mr-2"></i>Add Contact
+            </button>
+        </div>
+    </div>
+
+    
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-xl max-w-md w-full">
+            <h3 class="text-xl font-semibold mb-4">Add Emergency Contact</h3>
+            <form id="contactForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="contactName"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Relationship</label>
+                    <input type="text"  id="contactRelationship"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Phone</label>
+                    <input type="tel" id="contactPhone"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="flex justify-end gap-4">
+                    <button type="button" id="cancelContact"
+                        class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        let isDarkMode = false;
+        const contacts = [];
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            const cards = document.querySelectorAll('.metric-card');
+            cards.forEach(card => card.classList.toggle('bg-gray-800'));
+        });
+
+        document.getElementById('emergencyButton').addEventListener('click', () => {
+            showAlert('Emergency services have been notified. Please pull over safely.');
+            
+            contacts.forEach(contact => {
+                console.log(`Notifying ${contact.name} at ${contact.phone}`);
+            });
+        });
+
+        
+        function showAlert(message) {
+            const banner = document.getElementById('alertBanner');
+            const alertMessage = document.getElementById('alertMessage');
+            alertMessage.textContent = message;
+            banner.classList.remove('hidden');
+            setTimeout(() => banner.classList.add('hidden'), 5000);
+        }
+
+        // Contact management
+        document.getElementById('addContactBtn').addEventListener('click', () => {
+            document.getElementById('contactModal').classList.remove('hidden');
+        });
+
+        document.getElementById('cancelContact').addEventListener('click', () => {
+            document.getElementById('contactModal').classList.add('hidden');
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const phone = document.getElementById('contactPhone').value;
+            const relationship = document.getElementById('contactRelationship').value;
+
+            if (name && phone) {
+                contacts.push({ name, phone, relationship });
+                updateContactList();
+                document.getElementById('contactModal').classList.add('hidden');
+            }
+        });
+
+        function updateContactList() {
+    const contactsList = document.getElementById('contactsList');
+    contactsList.innerHTML = ''; 
+
+    contacts.forEach((contact, index) => {
+        const contactItem = document.createElement('div');
+        contactItem.className = 'flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-sm';
+
+        contactItem.innerHTML = `
+            <div>
+                <p class="font-bold">${contact.name}</p>
+                <p class="text-sm text-gray-600">${contact.relationship || 'Relationship not specified'}</p>
+                <p class="text-sm text-gray-600">${contact.phone}</p>
+            </div>
+            <button onclick="removeContact(${index})" class="text-red-500 hover:text-red-700">
+                <i class="bi bi-trash-fill"></i> Remove
+            </button>
+        `;
+
+        contactsList.appendChild(contactItem);
+    });
+}
+
+function removeContact(index) {
+    contacts.splice(index, 1); 
+    updateContactList(); 
+}
+
+        setInterval(() => {
+            document.getElementById('heartRate').textContent = Math.floor(Math.random() * 20) + 60;
+            document.getElementById('bloodPressure').textContent = `${Math.floor(Math.random() * 40) + 100}/${Math.floor(Math.random() * 30) + 70}`;
+            document.getElementById('bloodSugar').textContent = Math.floor(Math.random() * 30) + 80;
+            document.getElementById('moodIndicator').textContent = ['😊 Stable', '😟 Sad', '😁Joyful'][Math.floor(Math.random() * 3)];
+        }, 5000);
+    </script>
+</body>
+
+</html>

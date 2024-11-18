@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Dashboards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1d1d1d;
+            color: #fff;
+            display: flex;
+            height: 100vh;
+        }
+
+        
+        .sidebar {
+            width: 60px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            align-items: center;
+            justify-content: space-evenly; 
+            height: 100%; 
+        }
+
+        .sidebar li {
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .sidebar img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sidebar img:hover {
+            transform: scale(1.2);
+            
+            opacity: 0.8;
+            
+        }
+
+        
+        .main-content {
+            margin-left: 60px;
+            display: flex;
+            width: calc(100% - 60px);
+            overflow-y: auto;
+        }
+
+        .section {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .top-bar {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #14a9d6;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        
+        .dashboard-frame {
+            display: grid;
+            background-color: gray;
+
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            grid-column-gap: 0px;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            max-width: 800px;
+            background-size: 600% 600%;
+            justify-content: space-between;
+        }
+
+        .map-container,
+        .chat-container,
+        .music-player,
+        .take-a-break {
+            background-color: #333;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            width: 300px;
+            
+        }
+
+        /*Spotify container*/
+        .music-player {
+            width: 300px;
+            background-color: #333;
+            border-radius: 5px;
+            padding: 20px;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        /* Image styling */
+        .album-cover {
+            width: 100%;
+            border-radius: 15px;
+        }
+
+        /* Song and artist text styling */
+        .song-info {
+            margin-top: 15px;
+        }
+
+        .song-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .artist-name {
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .time {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background-color: #555;
+            border-radius: 5px;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .progress {
+            height: 100%;
+            width: 60%;
+           
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .control-button:hover {
+            color: #aaa;
+        }
+
+        /* Chat component */
+        .messages {
+            height: 400px;
+            overflow-y: auto;
+            background-color: #1d1d1d;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .message-input input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: #1d1d1d;
+            color: #fff;
+        }
+
+        .message-input img,
+        .message-input button {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .emoji-picker-container {
+            position: relative;
+        }
+
+        .emoji-picker {
+            display: none;
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            width: 200px;
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1.2rem;
+            overflow-y: auto;
+            max-height: 150px;
+        }
+
+        .emoji-picker span {
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .emoji-picker span:hover {
+            background-color: #3c3c3c;
+            border-radius: 5px;
+        }
+
+        
+        .breakbutton {
+            margin-top: 50px;
+            padding: 12px 24px;
+            
+            font-size: 21px;
+            
+            border: inset;
+            
+            border-radius: 5px;
+            
+            cursor: pointer;
+           
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .break-options {
+            margin-top: 10px;
+        }
+
+        .break-options button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .emergency {
+            background-color: red;
+        }
+
+        .time-option {
+            background-color: #444;
+            color: #fff;
+        }
+
+        #alertContainerVirat,
+        #alertContainerSachin {
+            margin-top: 20px;
+        }
+
+        .alert-message {
+            background-color: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .alert-message {
+            animation: fadeOut 10s forwards;
+            /* Fade out over 10 seconds */
+        }
+
+        .virat {
+            color: #14e0b4;
+            text-align: left;
+        }
+
+        .sachin {
+            color: #e46510;
+            text-align: right;
+        }
+
+        .disconnect-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-left: 250px;
+        }
+
+        .disconnect-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .disconnect-button:hover {
+            background-color: #e04343;
+        }
+    </style>
+
+    <!-- Google Maps API Script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAsQPyuyxPOduxOZHc79h28SvE1iJ5TjY&callback=initMap"
+        async defer>
+        </script>
+</head>
+
+<body>
+    
+    <div class="sidebar">
+        <div class="nav-buttons">
+            <button onclick="goHome()">Home</button>
+        </div>
+        <ul>
+            <li><img src="src/images/icon1.jpeg" alt="Profile" title="Profile"></li>
+            <li><img src="src/images/icon2.jpeg" alt="Settings" title="Settings"></li>
+            <li><img src="src/images/icon3.jpeg" alt="Map" title="Map"></li>
+            <li><img src="src/images/icon4.jpeg" alt="Music" title="Music"></li>
+            <li><img src="src\images\icon5.jpeg" alt="Call" title="Call"></li>
+            <li><img src="src/images/icon6.jpeg" alt="VoyageSync" title="VoyageSync"></li>
+            <a href="caredrive.html">
+                <img src="src/images/icon7.jpeg" alt="CareDrive" title="CareDrive">
+            </a>
+        </ul>
+    </div>
+
+    
+    <div class="main-content">
+        <!-- Car 1 Dashboard -->
+        <div class="section" id="viratSection">
+            <div class="top-bar">Hello, Virat</div>
+            <div id="alertContainerVirat"></div>
+            <div class="dashboard-frame">
+                <!-- Map Component -->
+                <div class="map-container">
+                    <input type="text" id="sourceInputVirat" placeholder="Enter source location"><br>
+                    <input type="text" id="destinationInputVirat" placeholder="Enter Virat's destination">
+                    <button onclick="showMap('Virat')">Go</button>
+                    <div id="mapResultVirat" style="height: 400px; width: 100%; margin-top: 10px;">
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <div class="messages" id="messagesVirat">
+                        <!-- Messages will appear here for Virat -->
+                    </div>
+                    <div class="message-input">
+                        <div class="emoji-picker-container">
+                            <img src="src/images/emoji.png" alt="Emoji" style="width: 20px;"
+                                onclick="toggleEmojiPicker('emojiPickerVirat')">
+                            <div class="emoji-picker" id="emojiPickerVirat">
+                                <span>😊</span> <span>😃</span> <span>😂</span> <span>🤣</span> <span>😍</span>
+                                <span>😘</span> <span>😜</span> <span>🙄</span> <span>😎</span> <span>😢</span>
+                                <span>😭</span> <span>🥺</span> <span>😱</span> <span>👍</span> <span>👎</span>
+                                <span>👏</span> <span>🙌</span> <span>🎉</span> <span>💥</span> <span>💖</span>
+                                <span>🎂</span> <span>🌟</span> <span>🍕</span> <span>🍔</span> <span>🍎</span>
+                                <span>🍣</span> <span>🍿</span> <span>🚗</span> <span>🎮</span>
+                            </div>
+                        </div>
+                        <input type="text" id="inputVirat" placeholder="Type a message">
+                        <img src="src\images\voice.png" alt="Voice" style="width: 20px;">
+                        <button onclick="sendMessage('Virat')">Send</button>
+                    </div>
+                </div>
+
+                <!-- Spotify Component -->
+                <div class="music-player">
+
+                    <!-- Song Search Box -->
+                    <div class="song-search">
+                        <input type="text" id="songSearch" placeholder="What do you wanna hear?">
+                        <button onclick="playSong()">Search</button>
+                    </div> <br>
+                    <img id="albumCoverVirat" src="src/images/album-coverVirat.jpg" alt="Album Cover"
+                        class="album-cover">
+
+                    <div class="song-info">
+                        <div id="songTitleVirat" class="song-title">Name of the Music</div>
+                        <div id="artistNameVirat" class="artist-name">Singer's Name</div>
+                    </div>
+
+                    <div class="progress-container">
+                        <span class="time" id="currentTimeVirat">00:00</span>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                        <span class="time" id="durationVirat">00:00</span>
+                    </div>
+
+                    <div class="controls">
+                        <button class="control-button">⏮️</button>
+                        <button class="control-button">▶</button>
+                        <button class="control-button">⏭️</button>
+                    </div>
+                </div>
+
+
+                <div class="take-a-break">
+                    <button class="breakbutton" onclick="showBreakOptions('Virat')">Take a Break</button>
+                    <div id="breakOptionsVirat" class="break-options" style="display: none;">
+                        <button class="emergency" onclick="takeABreak('Virat', 'Emergency Stop')">Emergency
+                            Stop</button>
+                        <button class="time-option" onclick="takeABreak('Virat', 'in 15 mins')">In 15 mins</button>
+                        <button class="time-option" onclick="takeABreak('Virat', 'in 30 mins')">In 30 mins</button>
+                        <button class="time-option" onclick="takeABreak('Virat', 'in 45 mins')">In 45 mins</button>
+                    </div>
+                </div>
+                <!-- Disconnect Button -->
+                <div class="disconnect-container">
+                    <button class="disconnect-button" onclick="disconnect()">Disconnect</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Car 2 Dashboard -->
+        <div class="section" id="sachinSection">
+            <div class="top-bar">Hello, Sachin</div>
+            <div id="alertContainerSachin"></div>
+
+            <!-- Dashboard Frame with Grid Layout -->
+            <div class="dashboard-frame">
+                <!--map-->
+                <div class="map-container">
+                    <input type="text" id="sourceInputSachin" placeholder="Enter source location"><br>
+                    <input type="text" id="destinationInputSachin" placeholder="Enter Sachin's destination">
+                    <button onclick="showMap('Sachin')">Go</button>
+                    <div id="mapResultSachin" style="height: 400px; width: 100%; margin-top: 10px;">Map will display
+                        here</div>
+                </div>
+
+                <!-- Chat Component for Sachin -->
+                <div class="chat-container">
+                    <div class="messages" id="messagesSachin">
+                        <!-- Messages will appear here for Sachin -->
+                    </div>
+                    <div class="message-input">
+                        <div class="emoji-picker-container">
+                            <img src="src/images/emoji.png" alt="Emoji" style="width: 20px;"
+                                onclick="toggleEmojiPicker('emojiPickerSachin')">
+                            <div class="emoji-picker" id="emojiPickerSachin">
+                                <span>😊</span> <span>😃</span> <span>😂</span> <span>🤣</span> <span>😍</span>
+                                <span>😘</span> <span>😜</span> <span>🙄</span> <span>😎</span> <span>😢</span>
+                                <span>😭</span> <span>🥺</span> <span>😱</span> <span>👍</span> <span>👎</span>
+                                <span>👏</span> <span>🙌</span> <span>🎉</span> <span>💥</span> <span>💖</span>
+                                <span>🎂</span> <span>🌟</span> <span>🍕</span> <span>🍔</span> <span>🍎</span>
+                                <span>🍣</span> <span>🍿</span> <span>🚗</span> <span>🎮</span>
+                            </div>
+                        </div>
+                        <input type="text" id="inputSachin" placeholder="Type a message">
+                        <img src="src\images\voice.png" alt="Voice" style="width: 20px;">
+                        <button onclick="sendMessage('Sachin')">Send</button>
+                    </div>
+                </div>
+
+
+                <!-- Spotify Component for Sachin -->
+                <div class="music-player">
+                    <!-- Song Search Box -->
+                    <div class="song-search">
+                        <input type="text" id="songSearch" placeholder="What do you wanna hear?">
+                        <button onclick="playSong()">Search</button>
+                    </div>
+                    <br>
+
+                    <img id="albumCoverSachin" src="src/images/album-coverSachin.jpg" alt="Album Cover"
+                        class="album-cover">
+
+                    <div class="song-info">
+                        <div id="songTitleSachin" class="song-title">Name of the Music</div>
+                        <div id="artistNameSachin" class="artist-name">Singer's Name</div>
+                    </div>
+
+                    <div class="progress-container">
+                        <span class="time" id="currentTimeSachin">00:00</span>
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                        <span class="time" id="durationSachin">00:00</span>
+                    </div>
+
+                    <div class="controls">
+                        <button class="control-button">⏮️</button>
+                        <button class="control-button">▶</button>
+                        <button class="control-button">⏭️</button>
+                    </div>
+                </div>
+
+                <div class="take-a-break">
+                    <button class="breakbutton" onclick="showBreakOptions('Sachin')">Take a Break</button>
+                    <div id="breakOptionsSachin" class="break-options" style="display: none;">
+                        <button class="emergency" onclick="takeABreak('Sachin', 'Emergency Stop')">Emergency
+                            Stop</button>
+                        <button class="time-option" onclick="takeABreak('Sachin', 'in 15 mins')">In 15 mins</button>
+                        <button class="time-option" onclick="takeABreak('Sachin', 'in 30 mins')">In 30 mins</button>
+                        <button class="time-option" onclick="takeABreak('Sachin', 'in 45 mins')">In 45 mins</button>
+                    </div>
+                </div>
+                <!-- Disconnect Button -->
+                <div class="disconnect-container">
+                    <button class="disconnect-button" onclick="disconnect()">Disconnect</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+
+        // Maps
+        let mapSachin, mapVirat;
+        let directionsRendererSachin, directionsRendererVirat;
+        let currentLocationMarker;
+
+        const defaultLocation = { lat: 26.38, lng: 75.855278 };
+
+        function initMap() {
+            const mapOptions = {
+                zoom: 12,
+                center: defaultLocation
+            };
+
+            // Initialize both maps and directions renderers
+            mapSachin = new google.maps.Map(document.getElementById("mapResultSachin"), mapOptions);
+            directionsRendererSachin = new google.maps.DirectionsRenderer();
+            directionsRendererSachin.setMap(mapSachin);
+
+            mapVirat = new google.maps.Map(document.getElementById("mapResultVirat"), mapOptions);
+            directionsRendererVirat = new google.maps.DirectionsRenderer();
+            directionsRendererVirat.setMap(mapVirat);
+
+            // Attempt to get the user's current location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+                        // Place marker on user's current location
+                        placeMarkerOnCurrentLocation(userLocation);
+                    },
+                    (error) => {
+                        console.error("Geolocation error: ", error);
+                        alert("Geolocation failed. Showing default location.");
+                        placeMarkerOnCurrentLocation(defaultLocation); // Fallback to default location
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+                placeMarkerOnCurrentLocation(defaultLocation); // Fallback to default location
+            }
+        }
+
+        function placeMarkerOnCurrentLocation(location) {
+            const markerOptions = {
+                position: location,
+                map: mapSachin,
+                title: "Your Current Location"
+            };
+            currentLocationMarker = new google.maps.Marker(markerOptions);
+
+           
+            mapSachin.setCenter(location);
+            mapVirat.setCenter(location);
+
+            
+            new google.maps.Marker({
+                position: location,
+                map: mapVirat,
+                title: "Your Current Location"
+            });
+        }
+
+        function showMap() {
+            const sourceInput = document.getElementById("sourceInputSachin").value || document.getElementById("sourceInputVirat").value;
+            const destinationInput = document.getElementById("destinationInputSachin").value || document.getElementById("destinationInputVirat").value;
+
+            if (!sourceInput || !destinationInput) {
+                alert("Please enter both source and destination locations");
+                return;
+            }
+
+            const directionsService = new google.maps.DirectionsService();
+            const request = {
+                origin: sourceInput,
+                destination: destinationInput,
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+
+            directionsService.route(request, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsRendererSachin.setDirections(result);
+                    directionsRendererVirat.setDirections(result);
+                } else {
+                    console.error("Directions request failed: " + status);
+                    alert("Could not find a route. Please check the addresses and try again.");
+                }
+            });
+        }
+
+        function showBothRoutes() {
+            showMap();
+        }
+
+        window.onload = initMap;
+
+
+        
+        const songs = [
+            {
+                title: "Blinding Lights",
+                artist: "The Weeknd",
+                duration: "03:20",
+                albumCover: "src/images/blinding-lights.jpeg"
+            },
+            {
+                title: "Shape of You",
+                artist: "Ed Sheeran",
+                duration: "04:24",
+                albumCover: "src/images/shape-of-you.jpeg"
+            },
+            {
+                title: "Levitating",
+                artist: "Dua Lipa",
+                duration: "03:23",
+                albumCover: "src/images/levitating.jpeg"
+            },
+            {
+                title: "Dance Monkey",
+                artist: "Tones and I",
+                duration: "03:29",
+                albumCover: "src/images/dance-monkey.jpeg"
+            }
+        ];
+
+        function playSong() {
+            const searchInput = document.getElementById("songSearch").value.toLowerCase();
+            const song = songs.find(song => song.title.toLowerCase().includes(searchInput));
+
+            if (song) {
+                document.getElementById("songTitleVirat").textContent = song.title;
+                document.getElementById("artistNameVirat").textContent = song.artist;
+                document.getElementById("durationVirat").textContent = song.duration;
+                document.getElementById("albumCoverVirat").src = song.albumCover;
+                document.getElementById("songTitleSachin").textContent = song.title;
+                document.getElementById("artistNameSachin").textContent = song.artist;
+                document.getElementById("durationSachin").textContent = song.duration;
+                document.getElementById("albumCoverSachin").src = song.albumCover;
+            } else {
+                alert("Song not found. Try searching with a different name.");
+            }
+        }
+
+        function sendMessage(user) {
+            const messageInput = document.getElementById(`input${user}`);
+            const viratMessagesContainer = document.getElementById("messagesVirat");
+            const sachinMessagesContainer = document.getElementById("messagesSachin");
+            const messageText = messageInput.value.trim();  
+
+            if (messageText) {
+                const senderMessageVirat = document.createElement("div");
+                senderMessageVirat.classList.add('message', user.toLowerCase());
+                senderMessageVirat.textContent = `${user}: ${messageText}`;
+                viratMessagesContainer.appendChild(senderMessageVirat);
+                const senderMessageSachin = document.createElement("div");
+                senderMessageSachin.classList.add('message', user.toLowerCase());
+                senderMessageSachin.textContent = `${user}: ${messageText}`;
+                sachinMessagesContainer.appendChild(senderMessageSachin);
+
+                viratMessagesContainer.scrollTop = viratMessagesContainer.scrollHeight;
+                sachinMessagesContainer.scrollTop = sachinMessagesContainer.scrollHeight;
+
+                setTimeout(() => {
+                    const otherUser = user === "Virat" ? "Sachin" : "Virat";
+                    const receiverMessageVirat = document.createElement("div");
+                    receiverMessageVirat.classList.add('message', otherUser.toLowerCase());
+                    receiverMessageVirat.textContent = `${otherUser}: ${getDynamicResponse(otherUser)}`;
+                    viratMessagesContainer.appendChild(receiverMessageVirat);
+
+                    const receiverMessageSachin = document.createElement("div");
+                    receiverMessageSachin.classList.add('message', otherUser.toLowerCase());
+                    receiverMessageSachin.textContent = `${otherUser}: ${getDynamicResponse(otherUser)}`;
+                    sachinMessagesContainer.appendChild(receiverMessageSachin);
+
+                    
+                    viratMessagesContainer.scrollTop = viratMessagesContainer.scrollHeight;
+                    sachinMessagesContainer.scrollTop = sachinMessagesContainer.scrollHeight;
+                }, 1000); 
+                messageInput.value = '';
+            }
+        }
+
+        function getDynamicResponse(user) {
+            if (user === "Virat") {
+                return messageInput;
+            } else if (user === "Sachin") {
+                return messageInput;
+            }
+        }
+
+        
+        function toggleEmojiPicker(pickerId) {
+            const emojiPicker = document.getElementById(pickerId);
+            emojiPicker.style.display = emojiPicker.style.display === "block" ? "none" : "block";
+        }
+
+        
+        document.getElementById("emojiPickerVirat").addEventListener("click", function (event) {
+            if (event.target.tagName === "SPAN") {
+                const emoji = event.target.textContent;
+                const inputField = document.getElementById("inputVirat");
+                inputField.value += emoji;
+            }
+        });
+
+        document.getElementById("emojiPickerSachin").addEventListener("click", function (event) {
+            if (event.target.tagName === "SPAN") {
+                const emoji = event.target.textContent;
+                const inputField = document.getElementById("inputSachin");
+                inputField.value += emoji;
+            }
+        });
+
+
+        
+        function showBreakOptions(user) {
+            const options = document.getElementById(`breakOptions${user}`);
+            options.style.display = options.style.display === "none" ? "block" : "none";
+        }
+
+        
+        function takeABreak(user, option) {
+            const message = `${user} asked to take a break ${option}.`;
+
+           
+            if (user === "Virat") {
+                showAlertInBlock("alertContainerSachin", message);
+            } else {
+                showAlertInBlock("alertContainerVirat", message);
+            }
+        }
+
+        
+        function showAlertInBlock(containerId, message) {
+            const alertContainer = document.getElementById(containerId);
+
+           
+            alertContainer.innerHTML = "";
+
+            
+            const alertMessage = document.createElement("div");
+            alertMessage.className = "alert-message";
+            alertMessage.innerText = message;
+
+            
+            alertContainer.appendChild(alertMessage);
+
+            
+            setTimeout(() => {
+                alertMessage.remove();
+            }, 10000); 
+        }
+
+
+        function disconnect() {
+            var userConfirmation = confirm("Are you sure you want to disconnect?");
+
+            if (userConfirmation) {
+                window.location.href = "voyagesync.html"; 
+            }
+        }
+
+    </script>
+
+
+</body>
+
+</html>
