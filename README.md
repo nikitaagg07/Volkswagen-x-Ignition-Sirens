@@ -66,7 +66,7 @@ To address these challenges, we leverage advanced sensor technologies and real-t
 
 These state-of-the-art sensors deliver precise health monitoring and enable rapid interventions, prioritizing safety and promoting a secure driving experience.
 ![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img5.png)
-![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img7.png)
+![](https://github.com/Stuti2305/Volkswagen-x-Ignition-Sirens/blob/main/User%20Interface/img6.png)
 ## VoyageSync
 
 ### Problem:
